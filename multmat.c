@@ -22,14 +22,14 @@ void newMatriz(Matriz *mat, int l, int c)
     mat->lin = l; mat->col = c;
 }
 
-void printMatriz(Matriz mat)
+void printMatriz(Matriz *mat)
 {
     int i, j;
-    for (i = 0; i < mat.lin; i++)
+    for (i = 0; i < mat->lin; i++)
     {
         printf("| ");
-        for(j = 0; j < mat.col; j++ )
-            printf("%14.5lf ", mat.M[i][j]);
+        for(j = 0; j < mat->col; j++ )
+            printf("%14.5lf ", mat->M[i][j]);
         printf("|\n");
     }
     printf("\n");
@@ -47,32 +47,32 @@ void fillMatriz(Matriz *mat, int seed)
 }
 
 //Multiplica duas matrizes
-void multMat(Matriz A, Matriz B, Matriz *C)
+void multMat(Matriz *A, Matriz *B, Matriz *C)
 {
     int i,j,k;
-    for (i = 0; i < A.lin; i++)
-        for (j = 0; j < B.col; j++)
-            for (k = 0; k < A.col; k++)
-                C->M[i][j] += A.M[i][k] * B.M[k][j];
+    for (i = 0; i < A->lin; i++)
+        for (j = 0; j < B->col; j++)
+            for (k = 0; k < A->col; k++)
+                C->M[i][j] += A->M[i][k] * B->M[k][j];
 }
 
 //Multiplica duas matrizes com B transposta
-void multMatT(Matriz A, Matriz Bt, Matriz *C)
+void multMatT(Matriz *A, Matriz *Bt, Matriz *C)
 {
     int i, j, k;
-    for (i = 0; i < A.lin; i++)
-        for (j = 0; j < Bt.col; j++)
-            for (k = 0; k < A.col; k++)
-                C->M[i][j] += A.M[i][k] * Bt.M[j][k];
+    for (i = 0; i < A->lin; i++)
+        for (j = 0; j < Bt->col; j++)
+            for (k = 0; k < A->col; k++)
+                C->M[i][j] += A->M[i][k] * Bt->M[j][k];
 }
 
 //transpõe uma matriz
-void matrizT(Matriz A, Matriz *At)
+void matrizT(Matriz *A, Matriz *At)
 {
     int i, j;
     for(i = 0; i < At->lin; i++)
         for(j = 0; j < At->col; j++)
-            At->M[i][j] = A.M[j][i];
+            At->M[i][j] = A->M[j][i];
 
 }
 
@@ -174,31 +174,31 @@ int main(int argc, char *argv[])
     if (strcmp(mode,"o") == 0)
     {
         inicio = clock();
-        multMat(A, B, &C);
+        multMat(&A, &B, &C);
         fim = clock();
     }
     else 
     {
         newMatriz(&Bt, B.col, B.lin);
         inicio = clock();
-        matrizT(B, &Bt);
-        multMatT(A, Bt, &C);
+        matrizT(&B, &Bt);
+        multMatT(&A, &Bt, &C);
         fim = clock();
     }
 
     if (argc == 7 && strcmp("p", argv[6]) == 0)
     {
         printf("Matriz M1: \n");
-        printMatriz(A);
+        printMatriz(&A);
         printf("Matriz M2: \n");
-        printMatriz(B);
+        printMatriz(&B);
         if (Bt.M != NULL)
         {
             printf("Matriz M2 transposta: \n");
-            printMatriz(Bt);
+            printMatriz(&Bt);
         }
         printf("Produto de M1 M2: \n");
-        printMatriz(C);
+        printMatriz(&C);
     }
 
     //grava as matrizes em um arquivo csv
