@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 typedef int Data;
 
@@ -42,14 +43,13 @@ void fillMatriz(Matriz *mat, int seed)
         srand(time(NULL));
     for (i = 0; i < mat->lin; i++)
         for (j = 0; j < mat->col; j++)
-            mat->M[i][j] = (rand()%1000);
+            mat->M[i][j] = (rand()%100);
 }
 
 //Multiplica duas matrizes
 void multMat(Matriz A, Matriz B, Matriz *C)
 {
     int i,j,k;
-    newMatriz(C, A.lin, B.col);
     for (i = 0; i < A.lin; i++)
         for (j = 0; j < B.col; j++)
             for (k = 0; k < A.col; k++)
@@ -59,18 +59,16 @@ void multMat(Matriz A, Matriz B, Matriz *C)
 //Multiplica duas matrizes com B transposta
 void multMatT(Matriz A, Matriz Bt, Matriz *C)
 {
-    newMatriz(C, A.lin, Bt.col);
     int i, j, k;
     for (i = 0; i < A.lin; i++)
         for (j = 0; j < Bt.col; j++)
             for (k = 0; k < A.col; k++)
-                C->M[i][j] += A.M[i][k] * Bt.M[i][k];
+                C->M[i][j] += A.M[i][k] * Bt.M[j][k];
 }
 
 //transpõe uma matriz
 void matrizT(Matriz A, Matriz *At)
 {
-    newMatriz(At, A.col, A.lin);
     int i, j;
     for(i = 0; i < At->lin; i++)
         for(j = 0; j < At->col; j++)
@@ -78,27 +76,82 @@ void matrizT(Matriz A, Matriz *At)
 
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
-    Matriz A, B, C, Bt, D;
-    newMatriz(&A, 3, 3);
-    fillMatriz(&A, 0);
-    printMatriz(A);
+    if (argc < 6)
+    {
+        printf("Invalid format!\n");
+        printf("./multmat.x l1 c1 l2 c2 o|t\n");
+        return 0;
+    }
 
-    newMatriz(&B, 3, 3);
-    fillMatriz(&B, 0);
-    printMatriz(B);
+    int l1,c1;
+    int l2,c2;
+    char *mode;
+    l1 = atoi(argv[1]);
+    c1 = atoi(argv[2]);
+    l2 = atoi(argv[3]);
+    c2 = atoi(argv[4]);
+    mode = argv[5];
 
-    matrizT(B, &Bt);
-    printMatriz(Bt);
+    if ((strcmp(mode,"o") != 0) && (strcmp(mode,"t") != 0))
+    {
+        printf("Invalid format!\n");
+        printf("./multmat.x l1 c1 l2 c2 o|t\n");
+        return 0;
+    }
+    if(c1 != l2)
+    {
+        printf("Dimensoes das matrizes imcompativeis para multiplicar!\n");
+        return 0;
+    }
 
-    printf("Multiplicaçao normal: \n");
-    multMat(A, B, &D);
-    printMatriz(D);
+    //Aloca e gera duas matrizes com numeros aleatorios
+    Matriz A, B, C, Bt;
+    Bt.M = NULL;
+    newMatriz(&A, l1, c1);
+    newMatriz(&B, l2, c2);
+    fillMatriz(&A,0);
+    fillMatriz(&B,0);
+    //Aloca a matriz para o resultado
+    newMatriz(&C, A.lin, B.col);
 
-    printf("Multiplicaçao transposta: \n");
-    multMatT(A,Bt,&C);
-    printMatriz(C);
+    float tempo = 0.0;
+    clock_t inicio, fim;
+
+    if (strcmp(mode,"o") == 0)
+    {
+        inicio = clock();
+        multMat(A, B, &C);
+        fim = clock();
+    }
+    else 
+    {
+        newMatriz(&Bt, B.col, B.lin);
+        inicio = clock();
+        matrizT(B, &Bt);
+        multMatT(A, Bt, &C);
+        fim = clock();
+    }
+
+    if (argc == 7 && strcmp("p", argv[6]) == 0)
+    {
+        printf("Matriz M1: \n");
+        printMatriz(A);
+        printf("Matriz M2: \n");
+        printMatriz(B);
+        if (Bt.M != NULL)
+        {
+            printf("Matriz M2 transposta: \n");
+            printMatriz(Bt);
+        }
+        printf("Produto de M1 M2: \n");
+        printMatriz(C);
+    }
     
+
+    tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
+    printf("Tempo de execucao = %f\n", tempo);
+
     return 0;
 }
