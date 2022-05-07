@@ -53,5 +53,5 @@ Mkfile.old
 dkms.conf
 
 #
-o*.txt
-t*.txt
+*o*.txt
+*t*.txt
