@@ -93,7 +93,7 @@ void exportToCsv(Matriz mat, char *nomeMatriz, char *filename)
         {
             sprintf(buffer, "%lf", mat.M[i][j]);
             fputs(buffer, file);
-            fputc(';',file);
+            fputc(',',file);
         }
         fputc('\n', file);
     }
@@ -169,21 +169,31 @@ int main(int argc, char *argv[])
     newMatriz(&C, A.lin, B.col);
 
     float tempo = 0.0;
+
     clock_t inicio, fim;
+    clock_t inicioT, fimT;
 
     if (strcmp(mode,"o") == 0)
     {
         inicio = clock();
         multMat(A, B, &C);
         fim = clock();
+
+        tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
     }
     else 
     {
         newMatriz(&Bt, B.col, B.lin);
-        inicio = clock();
+
+        inicioT = clock();
         matrizT(B, &Bt);
+        fimT = clock();
+
+        inicio = clock();
         multMatT(A, Bt, &C);
         fim = clock();
+
+        tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC) + (float)(((fimT - inicioT) + 0.0) / CLOCKS_PER_SEC);
     }
 
     if (argc == 7 && strcmp("p", argv[6]) == 0)
@@ -220,7 +230,7 @@ int main(int argc, char *argv[])
         exportToTxt(C, "Matriz M1*M2", "matriz.txt");
     }
 
-    tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
+    
     printf("Tempo de execucao = %f\n", tempo);
 
     return 0;
