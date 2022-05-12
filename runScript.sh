@@ -1,4 +1,5 @@
 #!/bin/bash
+gcc multmat.c -o multmat.x
 for ((j = 200; j <= 2000; j+=200))
     do
     for ((i=0; i < 10; i++))

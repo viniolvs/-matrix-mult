@@ -1,0 +1,99 @@
+﻿ARK | Comparar produtos Intel®
+2022/05/07 20:51:18
+,Processador Intel® Core™ i7-7500U  (cache 4M- até 3-50 GHz)
+
+Essenciais
+Coleção de produtos,7ª geração de processadores Intel® Core™ i7
+Codinome,Produtos com denominação anterior  Kaby Lake
+Segmento vertical,Mobile
+Número do processador,i7-7500U
+Status,Launched
+Data de introdução,Q3'16
+Litografia,14 nm
+Preço recomendado para o cliente,$393.00
+
+Especificações da CPU
+Número de núcleos,2
+Nº de threads,4
+Frequência turbo max,3.50 GHz
+Tecnologia Intel® Turbo Boost frequência ​​​​2.0‡,3.50 GHz
+Frequência baseada em processador,2.70 GHz
+Cache,4 MB Intel® Smart Cache
+Velocidade do barramento,4 GT/s
+TDP,15 W
+Frequência de TDP Configurável - alto,2.90 GHz
+TDP Configurável - alto,25 W
+Frequência de TDP Configurável - baixo,800 MHz
+TDP Configurável - baixo,7.5 W
+
+Informações complementares
+Opções integradas disponíveis,Não
+Ficha técnica,Ver agora
+
+Especificações de memória
+Tamanho máximo de memória (de acordo com o tipo de memória),32 GB
+Tipos de memória,DDR4-2133 |  LPDDR3-1866 |  DDR3L-1600
+Nº máximo de canais de memória,2
+Largura de banda máxima da memória,34.1 GB/s
+Compatibilidade com memória ECC ‡,Não
+
+Gráficos de processador
+Gráficos do processador ‡,Gráficos HD Intel® 620
+Frequência da base gráfica,300 MHz
+Máxima frequência dinâmica da placa gráfica,1.05 GHz
+Quantidade máxima de memória gráfica de vídeo,32 GB
+Saída gráfica,eDP/DP/HDMI/DVI
+Suporte para 4K,Yes |  at 60Hz
+Resolução máxima (HDMI)‡,4096x2304@24Hz
+Resolução máxima (DP)‡,4096x2304@60Hz
+Resolução máxima (eDP - tela plana integrada)‡,4096x2304@60Hz
+Suporte para DirectX*,12
+Suporte para OpenGL*,4.5
+Intel® Quick Sync Video,Sim
+Tecnologia de Alta Definição Intel® Clear Video,Sim
+Intel® Clear Video Technology,Sim
+Nº de monitores aceitos  ‡,3
+ID do dispositivo,0x5916
+
+Opções de expansão
+Revisão de PCI Express,3.0
+Configurações PCI Express ‡,1x4 |  2x2 |  1x2+2x1 and 4x1
+Nº máximo de linhas PCI Express,12
+
+Especificações de encapsulamento
+Soquetes suportados,FCBGA1356
+Configuração máxima da CPU,1
+TJUNCTION,100°C
+Tamanho do pacote,42mm X 24mm
+
+Tecnologias avançadas
+Compatível com Intel® Optane™ Memory ‡,Sim
+Tecnologia Intel® Speed Shift,Sim
+Tecnologia Intel® Turbo Boost ‡,2.0
+Elegibilidade da plataforma Intel® vPro™ ‡,Não
+Tecnologia Hyper-Threading Intel® ‡,Sim
+Tecnologia de virtualização Intel® (VT-x) ‡,Sim
+Tecnologia de virtualização Intel® para E/S dirigida (VT-d) ‡,Sim
+Intel® VT-x com Tabelas de páginas estendidas (EPT)  ‡,Sim
+Intel® TSX-NI,Não
+Intel® 64 ‡,Sim
+Conjunto de instruções,64-bit
+Extensões do conjunto de instruções,Intel® SSE4.1 |  Intel® SSE4.2 |  Intel® AVX2
+Estados ociosos,Sim
+Tecnologia Enhanced Intel SpeedStep®,Sim
+Tecnologias de monitoramento térmico,Sim
+Acesso de Memória Flexível Intel®,Sim
+Tecnologia de proteção da identidade Intel®  Identity ‡,Sim
+Programa Intel® da Plataforma de Imagem Estável (SIPP),Não
+Tecnologia Intel® de Resposta Inteligente,Sim
+Tecnologia Intel® My WiFi,Sim
+
+Segurança e confiabilidade
+Novas instruções Intel® AES,Sim
+Chave Segura,Sim
+Intel® Software Guard Extensions (Intel®SGX),Yes with Intel® ME
+Intel® Memory Protection Extensions (Intel® MPX),Sim
+Intel® Trusted Execution Technology ‡,Não
+Bit de desativação de execução ‡,Sim
+Intel® OS Guard,Sim
+Intel® Boot Guard,Sim
