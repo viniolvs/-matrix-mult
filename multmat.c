@@ -3,80 +3,72 @@
 #include <time.h>
 #include <string.h>
 
-typedef double Data;
-
-typedef struct Matriz
-{
-    Data **M;
-    int lin,col;
-}Matriz;
-
 //aloca uma matriz
-void newMatriz(Matriz *mat, int l, int c)
+double** newMatriz(int l, int c)
 {
-    mat->M = malloc (l * sizeof (Data*)) ;
+    double **M;
+    M = malloc (l * sizeof (double*)) ;
     int i;
     for (i=0; i < l; i++)
-        mat->M[i] = malloc (c * sizeof (Data)) ;
-    
-    mat->lin = l; mat->col = c;
+        M[i] = malloc (c * sizeof (double));
+    return M;
 }
 
-void printMatriz(Matriz mat)
+void printMatriz(double **M, int l, int c)
 {
     int i, j;
-    for (i = 0; i < mat.lin; i++)
+    for (i = 0; i < l; i++)
     {
         printf("| ");
-        for(j = 0; j < mat.col; j++ )
-            printf("%14.5lf ", mat.M[i][j]);
+        for(j = 0; j < c; j++ )
+            printf("%14.5lf ", M[i][j]);
         printf("|\n");
     }
     printf("\n");
 }
 
 //preenche a matriz com valores aleatórios
-void fillMatriz(Matriz *mat, int seed)
+void fillMatriz(double **M,int l, int c, int seed)
 {
     int i,j;
     if (seed)
         srand(time(NULL));
-    for (i = 0; i < mat->lin; i++)
-        for (j = 0; j < mat->col; j++)
-            mat->M[i][j] = ((double)rand() * 1000) / (double)RAND_MAX;
+    for (i = 0; i < l; i++)
+        for (j = 0; j < c; j++)
+            M[i][j] = ((double)rand() * 1000) / (double)RAND_MAX;
 }
 
 //Multiplica duas matrizes
-void multMat(Matriz A, Matriz B, Matriz *C)
+void multMat(double **A, double **B, double **C, int l1, int l2, int c1, int c2)
 {
     int i,j,k;
-    for (i = 0; i < A.lin; i++)
-        for (j = 0; j < B.col; j++)
-            for (k = 0; k < A.col; k++)
-                C->M[i][j] += A.M[i][k] * B.M[k][j];
+    for (i = 0; i < l1; i++)
+        for (j = 0; j < c2; j++)
+            for (k = 0; k < c1; k++)
+                C[i][j] += A[i][k] * B[k][j];
 }
 
 //Multiplica duas matrizes com B transposta
-void multMatT(Matriz A, Matriz Bt, Matriz *C)
+void multMatT(double **A, double **Bt, double **C, int l1, int l2, int c1, int c2)
 {
     int i, j, k;
-    for (i = 0; i < A.lin; i++)
-        for (j = 0; j < Bt.col; j++)
-            for (k = 0; k < A.col; k++)
-                C->M[i][j] += A.M[i][k] * Bt.M[j][k];
+    for (i = 0; i < l1; i++)
+        for (j = 0; j < c2; j++)
+            for (k = 0; k < c1; k++)
+                C[i][j] += A[i][k] * Bt[j][k];
 }
 
 //transpõe uma matriz
-void matrizT(Matriz A, Matriz *At)
+void matrizT(double **A, double **At, int l, int c)
 {
     int i, j;
-    for(i = 0; i < At->lin; i++)
-        for(j = 0; j < At->col; j++)
-            At->M[i][j] = A.M[j][i];
+    for(i = 0; i < l; i++)
+        for(j = 0; j < c; j++)
+            At[i][j] = A[j][i];
 
 }
 
-void exportToCsv(Matriz mat, char *nomeMatriz, char *filename)
+void exportToCsv(double **M, int l, int c, char *nomeMatriz, char *filename)
 {
     FILE *file;
     file = fopen(filename,"a");
@@ -87,11 +79,11 @@ void exportToCsv(Matriz mat, char *nomeMatriz, char *filename)
     fputs(nomeMatriz, file);
     fputc('\n', file);
 
-    for(i = 0; i < mat.lin; i++)
+    for(i = 0; i < l; i++)
     {
-        for (j = 0; j < mat.col; j++)
+        for (j = 0; j < c; j++)
         {
-            sprintf(buffer, "%lf", mat.M[i][j]);
+            sprintf(buffer, "%lf", M[i][j]);
             fputs(buffer, file);
             fputc(',',file);
         }
@@ -102,7 +94,7 @@ void exportToCsv(Matriz mat, char *nomeMatriz, char *filename)
     fclose(file);
 }
 
-void exportToTxt(Matriz mat, char *nomeMatriz, char *filename)
+void exportToTxt(double **M, int l, int c, char *nomeMatriz, char *filename)
 {
     FILE *file;
     file = fopen(filename,"a");
@@ -113,11 +105,11 @@ void exportToTxt(Matriz mat, char *nomeMatriz, char *filename)
     fputs(nomeMatriz, file);
     fputc('\n', file);
 
-    for(i = 0; i < mat.lin; i++)
+    for(i = 0; i < l; i++)
     {
-        for (j = 0; j < mat.col; j++)
+        for (j = 0; j < c; j++)
         {
-            sprintf(buffer, "%lf", mat.M[i][j]);
+            sprintf(buffer, "%lf", M[i][j]);
             fputs(buffer, file);
             fputc(' ',file);
         }
@@ -159,14 +151,14 @@ int main(int argc, char *argv[])
     }
 
     //Aloca e gera duas matrizes com numeros aleatorios
-    Matriz A, B, C, Bt;
-    Bt.M = NULL;
-    newMatriz(&A, l1, c1);
-    newMatriz(&B, l2, c2);
-    fillMatriz(&A, 1);
-    fillMatriz(&B, 1);
+    double **A, **B, **C, **Bt;
+    Bt = NULL;
+    A = newMatriz(l1, c1);
+    B = newMatriz(l2, c2);
+    fillMatriz(A, l1, c1, 1);
+    fillMatriz(B, l2, c2, 1);
     //Aloca a matriz para o resultado
-    newMatriz(&C, A.lin, B.col);
+    C = newMatriz(l1, c2);
 
     float tempo = 0.0;
 
@@ -176,21 +168,21 @@ int main(int argc, char *argv[])
     if (strcmp(mode,"o") == 0)
     {
         inicio = clock();
-        multMat(A, B, &C);
+        multMat(A, B, C, l1, l2, c1, c2);
         fim = clock();
 
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
     }
     else 
     {
-        newMatriz(&Bt, B.col, B.lin);
+        Bt = newMatriz(c2, l1);
 
         inicioT = clock();
-        matrizT(B, &Bt);
+        matrizT(B, Bt, l2, c2);
         fimT = clock();
 
         inicio = clock();
-        multMatT(A, Bt, &C);
+        multMatT(A, B, C, l1, c2, c1, l2);
         fim = clock();
 
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC) + (float)(((fimT - inicioT) + 0.0) / CLOCKS_PER_SEC);
@@ -199,39 +191,41 @@ int main(int argc, char *argv[])
     if (argc == 7 && strcmp("p", argv[6]) == 0)
     {
         printf("Matriz M1: \n");
-        printMatriz(A);
+        printMatriz(A, l1, c1);
         printf("Matriz M2: \n");
-        printMatriz(B);
-        if (Bt.M != NULL)
+        printMatriz(B, l2, c2);
+        if (Bt != NULL)
         {
             printf("Matriz M2 transposta: \n");
-            printMatriz(Bt);
+            printMatriz(Bt, c2, l2);
         }
         printf("Produto de M1 M2: \n");
-        printMatriz(C);
+        printMatriz(C, l1, c2);
     }
 
     //grava as matrizes em um arquivo csv
     else if (argc == 7 && strcmp("csv", argv[6]) == 0)
     {
-        exportToCsv(A, "Matriz M1", "matriz.csv");
-        exportToCsv(B, "Matriz M2", "matriz.csv");
-        if (Bt.M != NULL)
-            exportToCsv(Bt, "Matriz M2T", "matriz.csv");
-        exportToCsv(C, "Matriz M1*M2", "matriz.csv");
+        exportToCsv(A, l1, c1, "Matriz M1", "matriz.csv");
+        exportToCsv(B, l2, c2, "Matriz M2", "matriz.csv");
+        if (Bt != NULL)
+            exportToCsv(Bt, c2, l2, "Matriz M2T", "matriz.csv");
+        exportToCsv(C, l1, c2, "Matriz M1*M2", "matriz.csv");
     }
     
     else if (argc == 7 && strcmp("txt", argv[6]) == 0)
     {
-        exportToTxt(A, "Matriz M1", "matriz.txt");
-        exportToTxt(B, "Matriz M2", "matriz.txt");
-        if (Bt.M != NULL)
-            exportToTxt(Bt, "Matriz M2T", "matriz.txt");
-        exportToTxt(C, "Matriz M1*M2", "matriz.txt");
+        exportToTxt(A, l1, c1, "Matriz M1", "matriz.txt");
+        exportToTxt(B, l2, c2, "Matriz M2", "matriz.txt");
+        if (Bt != NULL)
+            exportToTxt(Bt, c2, l2, "Matriz M2T", "matriz.txt");
+        exportToTxt(C, l1, c2, "Matriz M1*M2", "matriz.csv");
     }
 
-    
-    printf("Tempo de execucao = %f\n", tempo);
+    if (argc == 7 && strcmp("out", argv[6]) == 0)
+        printf("%f\n", tempo);
+    else 
+        printf("Tempo de execucao = %f\n", tempo);
 
     return 0;
 }

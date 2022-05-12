@@ -16,17 +16,13 @@ int main(int argc, char *argv[])
 
     char *filename = argv[1];
     FILE *file = fopen(filename, "r");
-    char c = '0';
-    short offset = strlen("Tempo de execucao = ");
+    char c;
     char number[30];
-    char buffer[offset+1];
     int i , j;
     double n, sum = 0.0;
 
     for(i = 0; i < 10; i++)
     {
-        fread(buffer, 1, offset, file);
-        buffer[offset] = '\0';
         for(j = 0, c = '0'; c != '\n';)
         {
             c = fgetc(file);
@@ -37,6 +33,7 @@ int main(int argc, char *argv[])
     }
     fclose(file);
     double media = sum / 10.0;
-    printf("Media %s = %.5lf\n", filename, media);
+    printf("Medias\n");
+    printf("%s, %.5lf\n", filename, media);
     return 0;
 }
