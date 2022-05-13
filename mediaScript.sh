@@ -1,6 +1,6 @@
 #!/bin/bash
 gcc media.c -o media.x
-DIRETORIO="Notebook"
+DIRETORIO="NotebookO3"
 
 echo "Tam Matriz,Mode o,Mode t,Mode v" >> $DIRETORIO/medias.csv
 for ((i = 200; i <= 2000; i+=200))
