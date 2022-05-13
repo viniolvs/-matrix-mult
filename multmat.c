@@ -263,8 +263,11 @@ int main(int argc, char *argv[])
     free(A);
     free(B[0]);
     free(B);
-    free(C[0]);
-    free(C);
+    if (C!=NULL)
+    {
+        free(C[0]);
+        free(C);
+    }
     if (Bt!=NULL)
     {
         free(Bt[0]);
