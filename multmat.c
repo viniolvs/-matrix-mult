@@ -7,7 +7,7 @@
 double** newVetor(int l, int c)
 {
     double **M;
-    int i, j;
+    int i;
     M = malloc (l * sizeof (double*)) ;
     M[0] = malloc(l * c * sizeof(double));
     
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
     c2 = atoi(argv[4]);
     mode = argv[5];
 
-    if ((strcmp(mode,"o") != 0) && (strcmp(mode,"t") != 0))
+    if ((strcmp(mode,"o") != 0) && (strcmp(mode,"t") != 0) && (strcmp(mode,"v")!=0))
     {
         printf("Invalid format!\n");
         printf("./multmat.x l1 c1 l2 c2 o|t\n");
@@ -186,7 +186,10 @@ int main(int argc, char *argv[])
     Bt = NULL;
     C = NULL;
     A = newMatriz(l1, c1);
-    B = newVetor(l2, c2);
+    if (strcmp(mode,"v") == 0)
+        B = newVetor(l2, c2);
+    else
+        B = newMatriz(l2,c2);
     fillMatriz(A, l1, c1, 1);
     fillMatriz(B, l2, c2, 1);
     
@@ -196,15 +199,7 @@ int main(int argc, char *argv[])
     clock_t inicio, fim;
     clock_t inicioT, fimT;
 
-    if (strcmp(mode,"o") == 0)
-    {
-        inicio = clock();
-        C = multMat(A, B, l1, l2, c1, c2);
-        fim = clock();
-
-        tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
-    }
-    else 
+    if (strcmp(mode,"t") == 0)
     {
         inicioT = clock();
         Bt = matrizT(B, l2, c2);
@@ -215,6 +210,14 @@ int main(int argc, char *argv[])
         fim = clock();
 
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC) + (float)(((fimT - inicioT) + 0.0) / CLOCKS_PER_SEC);
+    }
+    else 
+    {
+        inicio = clock();
+        C = multMat(A, B, l1, l2, c1, c2);
+        fim = clock();
+
+        tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
     }
 
     if (argc == 7 && strcmp("p", argv[6]) == 0)

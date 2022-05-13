@@ -1,0 +1,92 @@
+﻿ARK | Comparar produtos Intel®
+2022/05/13 08:10:25
+,Processador Intel® Core™ i3-8100  (6 M de cache- 3-60 GHz)
+
+Essenciais
+Coleção de produtos,8ª geração de processadores Intel® Core™ i3
+Codinome,Produtos com denominação anterior  Coffee Lake
+Segmento vertical,Desktop
+Número do processador,i3-8100
+Status,Launched
+Data de introdução,Q4'17
+Litografia,14 nm
+Condições de uso,Embedded Broad Market Commercial Temp |  PC/Client/Tablet
+Preço recomendado para o cliente,$117.00
+
+Especificações da CPU
+Número de núcleos,4
+Nº de threads,4
+Frequência baseada em processador,3.60 GHz
+Cache,6 MB Intel® Smart Cache
+Velocidade do barramento,8 GT/s
+TDP,65 W
+
+Informações complementares
+Opções integradas disponíveis,Sim
+Ficha técnica,Ver agora
+
+Especificações de memória
+Tamanho máximo de memória (de acordo com o tipo de memória),64 GB
+Tipos de memória,DDR4-2400
+Nº máximo de canais de memória,2
+Largura de banda máxima da memória,37.5 GB/s
+Compatibilidade com memória ECC ‡,Sim
+
+Gráficos de processador
+Gráficos do processador ‡,Gráficos UHD Intel® 630
+Frequência da base gráfica,350 MHz
+Máxima frequência dinâmica da placa gráfica,1.10 GHz
+Quantidade máxima de memória gráfica de vídeo,64 GB
+Suporte para 4K,Yes |  at 60Hz
+Resolução máxima (HDMI)‡,4096x2304@24Hz
+Resolução máxima (DP)‡,4096x2304@60Hz
+Resolução máxima (eDP - tela plana integrada)‡,4096x2304@60Hz
+Suporte para DirectX*,12
+Suporte para OpenGL*,4.5
+Intel® Quick Sync Video,Sim
+Tecnologia Intel InTru 3D,Sim
+Tecnologia de Alta Definição Intel® Clear Video,Sim
+Intel® Clear Video Technology,Sim
+Nº de monitores aceitos  ‡,3
+ID do dispositivo,0x3E91/x92
+
+Opções de expansão
+Escalabilidade,1S Only
+Revisão de PCI Express,3.0
+Configurações PCI Express ‡,Up to 1x16 |  2x8 |  1x8+2x4
+Nº máximo de linhas PCI Express,16
+
+Especificações de encapsulamento
+Soquetes suportados,FCLGA1151
+Configuração máxima da CPU,1
+Especificação de solução térmica,PCG 2015C (65W)
+TJUNCTION,100°C
+Tamanho do pacote,37.5mm x 37.5mm
+
+Tecnologias avançadas
+Compatível com Intel® Optane™ Memory ‡,Sim
+Tecnologia Intel® Turbo Boost ‡,Não
+Elegibilidade da plataforma Intel® vPro™ ‡,Não
+Tecnologia Hyper-Threading Intel® ‡,Não
+Tecnologia de virtualização Intel® (VT-x) ‡,Sim
+Tecnologia de virtualização Intel® para E/S dirigida (VT-d) ‡,Sim
+Intel® VT-x com Tabelas de páginas estendidas (EPT)  ‡,Sim
+Intel® TSX-NI,Não
+Intel® 64 ‡,Sim
+Conjunto de instruções,64-bit
+Extensões do conjunto de instruções,Intel® SSE4.1 |  Intel® SSE4.2 |  Intel® AVX2
+Estados ociosos,Sim
+Tecnologia Enhanced Intel SpeedStep®,Sim
+Tecnologias de monitoramento térmico,Sim
+Tecnologia de proteção da identidade Intel®  Identity ‡,Sim
+Programa Intel® da Plataforma de Imagem Estável (SIPP),Não
+
+Segurança e confiabilidade
+Novas instruções Intel® AES,Sim
+Chave Segura,Sim
+Intel® Software Guard Extensions (Intel®SGX),Yes with Intel® ME
+Intel® Memory Protection Extensions (Intel® MPX),Sim
+Intel® OS Guard,Sim
+Intel® Trusted Execution Technology ‡,Não
+Bit de desativação de execução ‡,Sim
+Intel® Boot Guard,Sim
