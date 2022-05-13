@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
     }
     fclose(file);
     double media = sum / 10.0;
-    printf("Medias\n");
     printf("%s, %.5lf\n", filename, media);
     return 0;
 }

@@ -4,7 +4,7 @@
 #include <string.h>
 
 //aloca uma matriz como um vetorzao
-double* newMatriz(int l, int c)
+double** newVetor(int l, int c)
 {
     double **M;
     int i, j;
@@ -14,6 +14,16 @@ double* newMatriz(int l, int c)
     for (i=1; i < l; i++)
         M[i] = M[0] + i + c;
 
+    return M;
+}
+
+double** newMatriz(int l, int c)
+{
+    double **M;
+       M = malloc (l * sizeof (double*)) ;
+    int i;
+    for (i=0; i < l; i++)
+        M[i] = malloc (c * sizeof (double)) ;
     return M;
 }
 
@@ -42,43 +52,51 @@ void fillMatriz(double **M,int l, int c, int seed)
 }
 
 //Multiplica duas matrizes
-void multMat(double **A, double **B, double **C, int l1, int l2, int c1, int c2)
+double** multMat(double **A, double **B, int l1, int l2, int c1, int c2)
 {
     int i,j,k;
+    double **C;
+    C = newMatriz(l1, c2);
     for (i = 0; i < l1; i++)
     {
         for (j = 0; j < c2; j++)
         {
             C[i][j] = 0;
-            for (k = 0; k < c1; k++)
+            for (k = 0; k < l2; k++)
                 C[i][j] += A[i][k] * B[k][j];
         }
     }
+    return C;
 }
 
 //Multiplica duas matrizes com B transposta
-void multMatT(double **A, double **Bt, double **C, int l1, int l2, int c1, int c2)
+double** multMatT(double **A, double **Bt, int l1, int l2, int c1, int c2)
 {
     int i,j,k;
+    double **C;
+    C = newMatriz(l1, c2);
     for (i = 0; i < l1; i++)
     {
         for (j = 0; j < c2; j++)
         {
             C[i][j] = 0;
-            for (k = 0; k < c1; k++)
+            for (k = 0; k < l2; k++)
                 C[i][j] += A[i][k] * Bt[j][k];
         }
     }
+    return C;
 }
 
 //transpõe uma matriz
-void matrizT(double **A, double **At, int l, int c)
+double** matrizT(double **M,  int l, int c)
 {
     int i, j;
+    double **Mt;
+    Mt = newMatriz(c, l);
     for(i = 0; i < l; i++)
         for(j = 0; j < c; j++)
-            At[i][j] = A[j][i];
-
+            Mt[i][j] = M[j][i];
+    return Mt;
 }
 
 void exportToCsv(double **M, int l, int c, char *nomeMatriz, char *filename)
@@ -166,12 +184,12 @@ int main(int argc, char *argv[])
     //Aloca e gera duas matrizes com numeros aleatorios
     double **A, **B, **C, **Bt;
     Bt = NULL;
+    C = NULL;
     A = newMatriz(l1, c1);
-    B = newMatriz(l2, c2);
+    B = newVetor(l2, c2);
     fillMatriz(A, l1, c1, 1);
     fillMatriz(B, l2, c2, 1);
-    //Aloca a matriz para o resultado
-    C = newMatriz(l1, c2);
+    
 
     float tempo = 0.0;
 
@@ -181,21 +199,19 @@ int main(int argc, char *argv[])
     if (strcmp(mode,"o") == 0)
     {
         inicio = clock();
-        multMat(A, B, C, l1, l2, c1, c2);
+        C = multMat(A, B, l1, l2, c1, c2);
         fim = clock();
 
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
     }
     else 
     {
-        Bt = newMatriz(c2, l1);
-
         inicioT = clock();
-        matrizT(B, Bt, l2, c2);
+        Bt = matrizT(B, l2, c2);
         fimT = clock();
 
         inicio = clock();
-        multMatT(A, B, C, l1, c2, c1, l2);
+        C = multMatT(A, B, l1, l2, c1, c2);
         fim = clock();
 
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC) + (float)(((fimT - inicioT) + 0.0) / CLOCKS_PER_SEC);
