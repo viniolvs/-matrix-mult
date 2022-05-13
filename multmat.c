@@ -3,14 +3,17 @@
 #include <time.h>
 #include <string.h>
 
-//aloca uma matriz
-double** newMatriz(int l, int c)
+//aloca uma matriz como um vetorzao
+double* newMatriz(int l, int c)
 {
     double **M;
+    int i, j;
     M = malloc (l * sizeof (double*)) ;
-    int i;
-    for (i=0; i < l; i++)
-        M[i] = malloc (c * sizeof (double));
+    M[0] = malloc(l * c * sizeof(double));
+    
+    for (i=1; i < l; i++)
+        M[i] = M[0] + i + c;
+
     return M;
 }
 
@@ -43,19 +46,29 @@ void multMat(double **A, double **B, double **C, int l1, int l2, int c1, int c2)
 {
     int i,j,k;
     for (i = 0; i < l1; i++)
+    {
         for (j = 0; j < c2; j++)
+        {
+            C[i][j] = 0;
             for (k = 0; k < c1; k++)
                 C[i][j] += A[i][k] * B[k][j];
+        }
+    }
 }
 
 //Multiplica duas matrizes com B transposta
 void multMatT(double **A, double **Bt, double **C, int l1, int l2, int c1, int c2)
 {
-    int i, j, k;
+    int i,j,k;
     for (i = 0; i < l1; i++)
+    {
         for (j = 0; j < c2; j++)
+        {
+            C[i][j] = 0;
             for (k = 0; k < c1; k++)
                 C[i][j] += A[i][k] * Bt[j][k];
+        }
+    }
 }
 
 //transpõe uma matriz
@@ -226,6 +239,18 @@ int main(int argc, char *argv[])
         printf("%f\n", tempo);
     else 
         printf("Tempo de execucao = %f\n", tempo);
+    
+    free(A[0]);
+    free(A);
+    free(B[0]);
+    free(B);
+    free(C[0]);
+    free(C);
+    if (Bt!=NULL)
+    {
+        free(Bt[0]);
+        free(Bt);
+    }
 
     return 0;
 }
