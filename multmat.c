@@ -92,7 +92,7 @@ double** matrizT(double **M,  int l, int c)
 {
     int i, j;
     double **Mt;
-    Mt = newVetor(c, l);
+    Mt = newMatriz(c, l);
     for(i = 0; i < l; i++)
         for(j = 0; j < c; j++)
             Mt[i][j] = M[j][i];
