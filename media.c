@@ -3,7 +3,6 @@
 #include <string.h>
 
 //lê um arquivo de saída da execução e calcula a média
-
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -13,14 +12,12 @@ int main(int argc, char *argv[])
         printf("./media.x <nome_arquivo>\n");
         return 0;
     }
-
     char *filename = argv[1];
     FILE *file = fopen(filename, "r");
     char c;
     char number[30];
     int i , j;
     double n, sum = 0.0;
-
     for(i = 0; i < 10; i++)
     {
         for(j = 0, c = '0'; c != '\n';)
@@ -28,7 +25,7 @@ int main(int argc, char *argv[])
             c = fgetc(file);
             number[j++] = c;
         }
-        sscanf(number, "%lf", &n);
+        sscanf(number, "%lf", &n); //faz o cast de string para double
         sum += n;
     }
     fclose(file);

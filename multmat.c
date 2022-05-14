@@ -3,20 +3,19 @@
 #include <time.h>
 #include <string.h>
 
-//aloca uma matriz como um vetorzao
+//aloca uma matriz como um vetor
 double** newVetor(int l, int c)
 {
     double **M;
     int i;
     M = malloc (l * sizeof (double*)) ;
     M[0] = malloc(l * c * sizeof(double));
-    
     for (i=1; i < l; i++)
         M[i] = M[0] + i + c;
-
     return M;
 }
 
+//aloca cada linha da matriz em uma posição distinta na memória
 double** newMatriz(int l, int c)
 {
     double **M;
@@ -61,7 +60,7 @@ double** multMat(double **A, double **B, int l1, int l2, int c1, int c2)
     {
         for (j = 0; j < c2; j++)
         {
-            C[i][j] = 0;
+            C[i][j] = 0.0;
             for (k = 0; k < l2; k++)
                 C[i][j] += A[i][k] * B[k][j];
         }
@@ -79,7 +78,7 @@ double** multMatT(double **A, double **Bt, int l1, int l2, int c1, int c2)
     {
         for (j = 0; j < c2; j++)
         {
-            C[i][j] = 0;
+            C[i][j] = 0.0;
             for (k = 0; k < l2; k++)
                 C[i][j] += A[i][k] * Bt[j][k];
         }
@@ -93,38 +92,13 @@ double** matrizT(double **M,  int l, int c)
     int i, j;
     double **Mt;
     Mt = newMatriz(c, l);
-    for(i = 0; i < l; i++)
-        for(j = 0; j < c; j++)
+    for(i = 0; i < c; i++)
+        for(j = 0; j < l; j++)
             Mt[i][j] = M[j][i];
     return Mt;
 }
 
-void exportToCsv(double **M, int l, int c, char *nomeMatriz, char *filename)
-{
-    FILE *file;
-    file = fopen(filename,"a");
-
-    int i,j;
-    char buffer[100];
-
-    fputs(nomeMatriz, file);
-    fputc('\n', file);
-
-    for(i = 0; i < l; i++)
-    {
-        for (j = 0; j < c; j++)
-        {
-            sprintf(buffer, "%lf", M[i][j]);
-            fputs(buffer, file);
-            fputc(',',file);
-        }
-        fputc('\n', file);
-    }
-    fputc('\n',file);
-
-    fclose(file);
-}
-
+//exporta uma matriz para um arquivo csv
 void exportToTxt(double **M, int l, int c, char *nomeMatriz, char *filename)
 {
     FILE *file;
@@ -206,7 +180,7 @@ int main(int argc, char *argv[])
         fimT = clock();
 
         inicio = clock();
-        C = multMatT(A, B, l1, l2, c1, c2);
+        C = multMatT(A, Bt, l1, l2, c1, c2);
         fim = clock();
 
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC) + (float)(((fimT - inicioT) + 0.0) / CLOCKS_PER_SEC);
@@ -235,23 +209,14 @@ int main(int argc, char *argv[])
         printMatriz(C, l1, c2);
     }
 
-    //grava as matrizes em um arquivo csv
-    else if (argc == 7 && strcmp("csv", argv[6]) == 0)
-    {
-        exportToCsv(A, l1, c1, "Matriz M1", "matriz.csv");
-        exportToCsv(B, l2, c2, "Matriz M2", "matriz.csv");
-        if (Bt != NULL)
-            exportToCsv(Bt, c2, l2, "Matriz M2T", "matriz.csv");
-        exportToCsv(C, l1, c2, "Matriz M1*M2", "matriz.csv");
-    }
-    
+    //grava as matrizes em um arquivo txt
     else if (argc == 7 && strcmp("txt", argv[6]) == 0)
     {
         exportToTxt(A, l1, c1, "Matriz M1", "matriz.txt");
         exportToTxt(B, l2, c2, "Matriz M2", "matriz.txt");
         if (Bt != NULL)
             exportToTxt(Bt, c2, l2, "Matriz M2T", "matriz.txt");
-        exportToTxt(C, l1, c2, "Matriz M1*M2", "matriz.csv");
+        exportToTxt(C, l1, c2, "Matriz M1*M2", "matriz.txt");
     }
 
     if (argc == 7 && strcmp("out", argv[6]) == 0)
@@ -273,6 +238,5 @@ int main(int argc, char *argv[])
         free(Bt[0]);
         free(Bt);
     }
-
     return 0;
 }

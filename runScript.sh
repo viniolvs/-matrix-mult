@@ -1,6 +1,6 @@
 #!/bin/bash
-# gcc -Wall -O3 multmat.c -o multmat.x
-gcc -Wall multmat.c -o multmat.x
+# gcc -O3 multmat.c -o multmat.x
+gcc multmat.c -o multmat.x
 DIRETORIO="Notebook"
 for ((j = 200; j <= 2000; j+=200))
     do
