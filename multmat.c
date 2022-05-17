@@ -26,6 +26,20 @@ double** newMatriz(int l, int c)
     return M;
 }
 
+void freeMatriz(double **M, int l)
+{
+    int i;
+    for (i = 0; i < l; i++)
+        free(M[i]);
+    free(M);
+}
+
+void freeVetor(double **V)
+{
+    free(V[0]);
+    free(V);
+}
+
 void printMatriz(double **M, int l, int c)
 {
     int i, j;
@@ -86,7 +100,7 @@ double** multMatT(double **A, double **Bt, int l1, int l2, int c1, int c2)
     return C;
 }
 
-//transpõe uma matriz
+//transpõe uma matriz e retorna a matriz transposta
 double** matrizT(double **M,  int l, int c)
 {
     int i, j;
@@ -98,7 +112,7 @@ double** matrizT(double **M,  int l, int c)
     return Mt;
 }
 
-//exporta uma matriz para um arquivo csv
+//exporta uma matriz para um arquivo txt
 void exportToTxt(double **M, int l, int c, char *nomeMatriz, char *filename)
 {
     FILE *file;
@@ -194,6 +208,7 @@ int main(int argc, char *argv[])
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
     }
 
+    //printa as matrizes no terminal
     if (argc == 7 && strcmp("p", argv[6]) == 0)
     {
         printf("Matriz M1: \n");
@@ -224,19 +239,16 @@ int main(int argc, char *argv[])
     else 
         printf("Tempo de execucao = %f\n", tempo);
     
-    free(A[0]);
-    free(A);
-    free(B[0]);
-    free(B);
+    //desaloca as matrizes utillizadas
+    freeMatriz(A, l1);
+    if(!strcmp(mode,"v"))
+        freeVetor(B);
+    else
+        freeMatriz(B,l2);
     if (C!=NULL)
-    {
-        free(C[0]);
-        free(C);
-    }
+        freeMatriz(C,l1);
     if (Bt!=NULL)
-    {
-        free(Bt[0]);
-        free(Bt);
-    }
+        freeMatriz(Bt,c2);
+
     return 0;
 }
