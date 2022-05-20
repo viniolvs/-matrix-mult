@@ -11,7 +11,7 @@ double** newVetor(int l, int c)
     M = malloc (l * sizeof (double*)) ;
     M[0] = malloc(l * c * sizeof(double));
     for (i=1; i < l; i++)
-        M[i] = M[0] + i + c;
+        M[i] = M[0] + c * i;
     return M;
 }
 
@@ -178,8 +178,8 @@ int main(int argc, char *argv[])
         B = newVetor(l2, c2);
     else
         B = newMatriz(l2,c2);
-    fillMatriz(A, l1, c1, 1);
-    fillMatriz(B, l2, c2, 1);
+    fillMatriz(A, l1, c1, 0);
+    fillMatriz(B, l2, c2, 0);
     
 
     float tempo = 0.0;
@@ -187,7 +187,16 @@ int main(int argc, char *argv[])
     clock_t inicio, fim;
     clock_t inicioT, fimT;
 
-    if (strcmp(mode,"t") == 0)
+    if (strcmp(mode,"o") == 0)
+    {
+        inicio = clock();
+        C = multMat(A, B, l1, l2, c1, c2);
+        fim = clock();
+
+        tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
+
+    }
+    else 
     {
         inicioT = clock();
         Bt = matrizT(B, l2, c2);
@@ -198,14 +207,6 @@ int main(int argc, char *argv[])
         fim = clock();
 
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC) + (float)(((fimT - inicioT) + 0.0) / CLOCKS_PER_SEC);
-    }
-    else 
-    {
-        inicio = clock();
-        C = multMat(A, B, l1, l2, c1, c2);
-        fim = clock();
-
-        tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
     }
 
     //printa as matrizes no terminal
