@@ -101,11 +101,14 @@ double** multMatT(double **A, double **Bt, int l1, int l2, int c1, int c2)
 }
 
 //transpõe uma matriz e retorna a matriz transposta
-double** matrizT(double **M,  int l, int c)
+double** matrizT(double **M,  int l, int c, char *mode)
 {
     int i, j;
     double **Mt;
-    Mt = newMatriz(c, l);
+    if (!strcmp(mode, "vt"))
+        Mt = newVetor(c,l);
+    else
+        Mt = newMatriz(c, l);
     for(i = 0; i < c; i++)
         for(j = 0; j < l; j++)
             Mt[i][j] = M[j][i];
@@ -157,10 +160,10 @@ int main(int argc, char *argv[])
     c2 = atoi(argv[4]);
     mode = argv[5];
 
-    if ((strcmp(mode,"o") != 0) && (strcmp(mode,"t") != 0) && (strcmp(mode,"v")!=0))
+    if (strcmp(mode,"o") && strcmp(mode,"t") && strcmp(mode,"vo") && strcmp(mode,"vt"))
     {
         printf("Invalid format!\n");
-        printf("./multmat.x l1 c1 l2 c2 o|t\n");
+        printf("./multmat.x l1 c1 l2 c2 o|t|vo|vt\n");
         return 0;
     }
     if(c1 != l2)
@@ -173,33 +176,38 @@ int main(int argc, char *argv[])
     double **A, **B, **C, **Bt;
     Bt = NULL;
     C = NULL;
-    A = newMatriz(l1, c1);
-    if (strcmp(mode,"v") == 0)
-        B = newVetor(l2, c2);
-    else
-        B = newMatriz(l2,c2);
-    fillMatriz(A, l1, c1, 0);
-    fillMatriz(B, l2, c2, 0);
     
-
-    float tempo = 0.0;
-
+    //aloca as matrizes de acordo com o modo
+    if (!strcmp(mode,"vt") || !strcmp(mode,"vo"))
+    {
+        B = newVetor(l2, c2);
+        A = newVetor(l1, c1);
+    }
+    else
+    {
+        B = newMatriz(l2,c2);
+        A = newMatriz(l1,c1);
+    }
+    //preenche as matrizes (seed = 0 valores repetem; seed = 1 valores aleatórios)
+    fillMatriz(A, l1, c1, 1);
+    fillMatriz(B, l2, c2, 1);
+    
+    double tempo = 0.0;
     clock_t inicio, fim;
     clock_t inicioT, fimT;
 
-    if (strcmp(mode,"o") == 0)
+    if (!strcmp(mode, "o") || !strcmp(mode, "vo"))
     {
         inicio = clock();
         C = multMat(A, B, l1, l2, c1, c2);
         fim = clock();
 
         tempo = (float)(((fim - inicio) + 0.0) / CLOCKS_PER_SEC);
-
     }
     else 
     {
         inicioT = clock();
-        Bt = matrizT(B, l2, c2);
+        Bt = matrizT(B, l2, c2, mode);
         fimT = clock();
 
         inicio = clock();
@@ -241,14 +249,21 @@ int main(int argc, char *argv[])
         printf("Tempo de execucao = %f\n", tempo);
     
     //desaloca as matrizes utillizadas
-    freeMatriz(A, l1);
-    if(!strcmp(mode,"v"))
+    if(!strcmp(mode,"vo") || !strcmp(mode,"vt"))
+    {
         freeVetor(B);
+        freeVetor(A);
+    }
     else
+    {
+        freeMatriz(A,l1);
         freeMatriz(B,l2);
+    }
     if (C!=NULL)
         freeMatriz(C,l1);
-    if (Bt!=NULL)
+    if (!strcmp(mode,"vt"))
+        freeVetor(Bt);
+    else if(!strcmp(mode, "t"))
         freeMatriz(Bt,c2);
 
     return 0;
