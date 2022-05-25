@@ -174,20 +174,19 @@ int main(int argc, char *argv[])
 
     //Aloca e gera duas matrizes com numeros aleatorios
     double **A, **B, **C, **Bt;
-    Bt = NULL;
+    A = NULL;
+    B = NULL;
     C = NULL;
+    Bt = NULL;
+    
     
     //aloca as matrizes de acordo com o modo
-    if (!strcmp(mode,"vt") || !strcmp(mode,"vo"))
-    {
+    A = newMatriz(l1,c1);
+    if (!strcmp(mode,"vo"))
         B = newVetor(l2, c2);
-        A = newVetor(l1, c1);
-    }
     else
-    {
         B = newMatriz(l2,c2);
-        A = newMatriz(l1,c1);
-    }
+        
     //preenche as matrizes (seed = 0 valores repetem; seed = 1 valores aleatórios)
     fillMatriz(A, l1, c1, 1);
     fillMatriz(B, l2, c2, 1);
@@ -249,22 +248,23 @@ int main(int argc, char *argv[])
         printf("Tempo de execucao = %f\n", tempo);
     
     //desaloca as matrizes utillizadas
-    if(!strcmp(mode,"vo") || !strcmp(mode,"vt"))
-    {
-        freeVetor(B);
-        freeVetor(A);
-    }
-    else
-    {
+    if (A!=NULL)
         freeMatriz(A,l1);
-        freeMatriz(B,l2);
+    if (B!=NULL)
+    {    
+        if(!strcmp(mode,"vo"))
+            freeVetor(B);
+        else
+            freeMatriz(B,l2);
     }
     if (C!=NULL)
         freeMatriz(C,l1);
-    if (!strcmp(mode,"vt"))
-        freeVetor(Bt);
-    else if(!strcmp(mode, "t"))
-        freeMatriz(Bt,c2);
-
+    if(Bt != NULL)
+    {
+        if (!strcmp(mode,"vt"))
+            freeVetor(Bt);
+        else
+            freeMatriz(Bt,c2);
+    }
     return 0;
 }
