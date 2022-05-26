@@ -179,7 +179,6 @@ int main(int argc, char *argv[])
     C = NULL;
     Bt = NULL;
     
-    
     //aloca as matrizes de acordo com o modo
     A = newMatriz(l1,c1);
     if (!strcmp(mode,"vo"))
