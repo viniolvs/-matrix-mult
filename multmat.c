@@ -57,11 +57,12 @@ void printMatriz(double **M, int l, int c)
 void fillMatriz(double **M,int l, int c, int seed)
 {
     int i,j;
+    clock_t clk = clock();
     if (seed)
-        srand(time(NULL));
+        srand(clk);
     for (i = 0; i < l; i++)
         for (j = 0; j < c; j++)
-            M[i][j] = ((double)rand() * 1000) / (double)RAND_MAX;
+            M[i][j] = ((double)rand() * 1000.0) / ((double)RAND_MAX);
 }
 
 //Multiplica duas matrizes
@@ -174,8 +175,6 @@ int main(int argc, char *argv[])
 
     //Aloca e gera duas matrizes com numeros aleatorios
     double **A, **B, **C, **Bt;
-    A = NULL;
-    B = NULL;
     C = NULL;
     Bt = NULL;
     
@@ -234,11 +233,11 @@ int main(int argc, char *argv[])
     //grava as matrizes em um arquivo txt
     else if (argc == 7 && strcmp("txt", argv[6]) == 0)
     {
-        exportToTxt(A, l1, c1, "Matriz M1", "matriz.txt");
-        exportToTxt(B, l2, c2, "Matriz M2", "matriz.txt");
+        exportToTxt(A, l1, c1, "Matriz A", "matriz.txt");
+        exportToTxt(B, l2, c2, "Matriz B", "matriz.txt");
         if (Bt != NULL)
-            exportToTxt(Bt, c2, l2, "Matriz M2T", "matriz.txt");
-        exportToTxt(C, l1, c2, "Matriz M1*M2", "matriz.txt");
+            exportToTxt(Bt, c2, l2, "Matriz BT", "matriz.txt");
+        exportToTxt(C, l1, c2, "Matriz A*B", "matriz.txt");
     }
 
     if (argc == 7 && strcmp("out", argv[6]) == 0)
